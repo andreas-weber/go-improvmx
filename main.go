@@ -3,7 +3,6 @@ package improvmx
 import (
 	"encoding/json"
 	"fmt"
-
 	resty "github.com/go-resty/resty/v2"
 )
 
@@ -66,7 +65,6 @@ func NewClient(accessToken string) *Client {
 	}
 }
 
-// https://improvmx.com/api/#authentication handler
 func (client *Client) setHeaders() *resty.Request {
 	if client.AccessToken == "" {
 		fmt.Println("ERROR: An ImprovMX API access token is required. Create one at https://app.improvmx.com/api.")
@@ -76,7 +74,6 @@ func (client *Client) setHeaders() *resty.Request {
 	return client.Http.SetAuthScheme("Basic").SetAuthToken(fmt.Sprintf("api:%s", client.AccessToken)).SetHeader("Content-Type", "application/json")
 }
 
-// https://improvmx.com/api/#account handler
 func (client *Client) AccountDetails() Response {
 	resp, _ := client.setHeaders().Get(fmt.Sprintf("%s/account", client.BaseURL))
 
@@ -95,7 +92,6 @@ func (client *Client) GetDomain(domain string) Response {
 	return parsed
 }
 
-// https://improvmx.com/api/#domains-add
 func (client *Client) CreateDomain(domain, notificationEmail, whitelabel string) Response {
 	domainInput, _ := json.Marshal(map[string]string{
 		"domain":             domain,
@@ -126,7 +122,6 @@ func (client *Client) UpdateDomain(domain, notificationEmail, whitelabel string)
 	return parsed
 }
 
-// https://improvmx.com/api/#domain-delete
 func (client *Client) DeleteDomain(domain string) Response {
 	resp, _ := client.setHeaders().Delete(fmt.Sprintf("%s/domains/%s", client.BaseURL, domain))
 
@@ -167,7 +162,6 @@ func (client *Client) UpdateEmailForward(domain, alias, forward string) Response
 	return parsed
 }
 
-// https://improvmx.com/api/#alias-delete
 func (client *Client) DeleteEmailForward(domain, alias string) Response {
 	resp, _ := client.setHeaders().Delete(fmt.Sprintf("%s/domains/%s/aliases/%s", client.BaseURL, domain, alias))
 
