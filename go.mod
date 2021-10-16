@@ -1,4 +1,4 @@
-module github.com/issyl0/go-improvmx
+module github.com/andreas-weber/go-improvmx
 
 go 1.16
 
